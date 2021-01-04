@@ -162,18 +162,18 @@ def joint_probability(people, one_gene, two_genes, have_trait):
             # Compute the probability of having one gene from parents
             if gene == 1:
                 jointProb *= (parentProb[mother] * (1 - parentProb[father]) +
-                             (1 - parentProb[mother]) * parentProb[father] *
-                             PROBS["trait"][1][trait])
+                              (1 - parentProb[mother]) * parentProb[father] *
+                              PROBS["trait"][1][trait])
 
             # Compute the probability of having two genes from parents
             elif gene == 2:
                 jointProb *= (parentProb[mother] * parentProb[father] * 
-                             PROBS["trait"][2][trait])
+                              PROBS["trait"][2][trait])
 
             # Compute the probability of having no genes from parents 
             else:
                 jointProb *= ((1 - parentProb[mother]) * (1 - parentProb[father]) *
-                             PROBS["trait"][0][trait]) 
+                              PROBS["trait"][0][trait]) 
 
         # Compute the probability of having one gene given trait using Bayes' Rules
         # Probability of b given a = probability of b * probability of a given b / probability of a (Bayes' Rule)
@@ -212,6 +212,7 @@ def normalize(probabilities):
 
         for trait in probabilities[person]["trait"]:
             probabilities[person]["trait"][trait] /= total_trait
+
 
 if __name__ == "__main__":
     main()
