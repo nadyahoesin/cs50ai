@@ -1,10 +1,10 @@
-## Search
+### Search
 Finding a solution to a problem, like a navigator app that finds the best route from your origin to the destination, or like playing a game and figuring out the    next move.
 #### Projects: 
 - Degrees: a program that determines how many “degrees of separation” apart two actors are.
 - Tic-Tac-Toe: an AI that plays Tic-Tac-Toe optimally.
 ---
-## Knowledge
+### Knowledge
 Representing information and drawing inferences from it.
 #### Projects: 
 - Knights: a program that solves logic puzzles.
