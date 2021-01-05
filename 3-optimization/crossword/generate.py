@@ -232,7 +232,7 @@ class CrosswordCreator():
             eliminated_by_value[value] = 0
 
             for neighbour in self.crossword.neighbors(var):
-                if neighbour not in assignment and value == self.domains[neighbour]:
+                if neighbour not in assignment and value in self.domains[neighbour]:
                     eliminated_by_value[value] += 1
 
         sorted_ebv = dict(sorted(eliminated_by_value.items(), key=lambda value: value[1]))
