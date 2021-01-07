@@ -71,7 +71,7 @@ def load_data(filename):
             row_evidence.append(int(row[2]))
             row_evidence.append(float(row[3]))
             row_evidence.append(int(row[4]))
-            row_evidence.append(float(cell) for cell in row[5:10])
+            row_evidence.extend([float(cell) for cell in row[5:10]])
             row_evidence.append(
                 0 if row[10] == "Jan" 
                 else 1 if row[10] == "Feb"
@@ -85,14 +85,14 @@ def load_data(filename):
                 else 9 if row[10] == "Oct"
                 else 10 if row[10] == "Nov"
                 else 11)
-            row_evidence.append(int(cell) for cell in row[11:15])
+            row_evidence.extend([int(cell) for cell in row[11:15]])
             row_evidence.append(1 if row[15] == "Returning_Visitor" else 0)
             row_evidence.append(1 if row[16] == "TRUE" else 0)
 
             evidence.append(row_evidence)
-            labels.append(row[17])
+            labels.append(1 if row[17] == "TRUE" else 0)
 
-        return evidence, labels
+        return (evidence, labels)
             
 
 def train_model(evidence, labels):
@@ -101,9 +101,9 @@ def train_model(evidence, labels):
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
     model = KNeighborsClassifier(n_neighbors=1)
-    x_training, x_testing, y_training, y_testing = train_test_split(evidence, labels, test_size=0.5)
+    model.fit(evidence, labels)
 
-    return model.fit(x_training, y_training)
+    return model
 
 
 def evaluate(labels, predictions):
@@ -121,12 +121,12 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    for i in range(len(labels)):
-        positive = 0
-        positive_identified = 0
-        negative = 0
-        negative_identified = 0
+    positive = 0
+    positive_identified = 0
+    negative = 0
+    negative_identified = 0
 
+    for i in range(len(labels)):
         if labels[i] == 1:
             positive += 1
             # True positive rate
@@ -135,10 +135,11 @@ def evaluate(labels, predictions):
 
         else:
             negative += 1
+            # True negative rate
             if predictions[i] == 0:
                 negative_identified += 1
 
-    return positive_identified / positive, negative_identified / negative
+    return (positive_identified / positive, negative_identified / negative)
 
 
 if __name__ == "__main__":
