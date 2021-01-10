@@ -9,7 +9,7 @@ from sklearn.model_selection import train_test_split
 EPOCHS = 10
 IMG_WIDTH = 30
 IMG_HEIGHT = 30
-NUM_CATEGORIES = 43
+NUM_CATEGORIES = 3 # FIXME
 TEST_SIZE = 0.4
 
 
@@ -75,7 +75,35 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    raise NotImplementedError
+    # Create a convolutional neural network
+    model = tf.keras.models.Sequential(
+
+        # First convolutional layer, learning 10 filters using 3x3 kernel
+        tf.keras.layers.Conv2D(
+            10, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+        ),
+
+        # First max-pooling layer, using 3x3 pooling size
+        tf.keras.layers.MaxPooling2D(pool_size=(3, 3)),
+
+        # Second convolutional layer
+        tf.keras.layers.Conv2D(
+            10, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+        ),
+
+        # Second max-pooling layer
+        tf.keras.layers.MaxPooling2D(pool_size=(3, 3)),
+
+        # Flatten units
+        tf.keras.layers.Flatten(),
+
+        # Add a hidden layer with dropout
+        tf.keras.layers.Dense(128, activation="relu"),
+        tf.keras.layers.Dropout(0.5),
+
+        # Add an output layer with NUM_CATEGORIES amount of units
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+    )
 
 
 if __name__ == "__main__":
